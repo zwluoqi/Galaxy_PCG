@@ -1,0 +1,33 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMainHeight
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+#include "ColorGenerate.hlsl"
+
+StructuredBuffer<float3> vertices;
+StructuredBuffer<float2> uvs;
+RWStructuredBuffer<float2> formatuvs;
+
+
+StructuredBuffer<ColorSettting> colorSetting;
+StructuredBuffer<NoiseLayer> noiseLayerSettings;
+StructuredBuffer<LatitudeSettingBuffer> latitudes;
+int noiseAddLayerCount;
+int latitudeCount;
+int Resolution;
+
+
+
+//uint3 groupId :SV_GroupID
+[numthreads(1,1,1)]
+void CSMainHeight(uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    int arrayIndex = id.x + id.y * (Resolution);
+    
+    float formatUVHeight = ColorGenerateExeculate(colorSetting[0],noiseLayerSettings,noiseAddLayerCount,latitudes,latitudeCount,vertices[arrayIndex],uvs[arrayIndex].x);
+    formatuvs[arrayIndex].x = formatUVHeight;
+    //formatuvs[arrayIndex].x = arrayIndex;
+    
+}

@@ -1,0 +1,56 @@
+.svn
+.idea
+build
+cmake-build-debug
+
+.vscode
+Library
+Logs
+Temp
+obj
+
+res
+
+
+*.pdf
+*.zip
+*.fbx
+*.csproj
+*.cache
+*.sln
+
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+*.cache

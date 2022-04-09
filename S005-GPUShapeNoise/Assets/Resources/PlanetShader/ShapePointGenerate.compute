@@ -1,0 +1,64 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMainVertices
+#pragma kernel CSMainTriangle
+
+#include "ShapeGenerate.hlsl"
+#include "ColorGenerate.hlsl"
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float3> vertices;
+
+RWStructuredBuffer<int> triangles;
+
+int Resolution;
+float4 Normal;
+float4 axisB;
+float4 axisA;
+
+StructuredBuffer<ShapeSettting> shapeSetting;
+StructuredBuffer<NoiseLayer> noiseLayerSettings;
+int noiseAddLayerCount;
+//RStructuredBuffer<ColorSettting> colorSetting;
+
+
+[numthreads(1,1,1)]
+void CSMainVertices (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+
+    // vertices[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+    int index = id.x + id.y * (Resolution);
+    float2 percent = float2(id.x, id.y) / (Resolution - 1);
+    float3 pos = Normal+2*axisB * (percent.x - 0.5f) + 2*axisA * (percent.y - 0.5f);
+    vertices[index] = ShapeGenerateExeculate1(shapeSetting[0], normalize(pos),noiseLayerSettings,noiseAddLayerCount);
+    //vertices[index] = ShapeGenerateExeculate(shapeSetting[0], normalize(pos));
+    
+}
+
+[numthreads(6,8,1)]
+void CSMainTriangle (uint3 id : SV_DispatchThreadID)
+{
+    int trianglesIndex = id.x+id.y*6;
+    int y = id.y/(Resolution-1);
+    int x = id.y%(Resolution-1);
+    int verticeIndex = x + y * (Resolution);
+    
+    //逆时针
+           
+    if(id.x ==0){
+        triangles[trianglesIndex] = verticeIndex;
+    }else if(id.x == 1){
+        triangles[trianglesIndex] = verticeIndex+Resolution;
+    }else if(id.x == 2){
+        triangles[trianglesIndex] = verticeIndex+1+Resolution;
+    
+    }else if(id.x == 3){
+        triangles[trianglesIndex] = verticeIndex+1+Resolution;
+    }else if(id.x == 4){
+        triangles[trianglesIndex] = verticeIndex+1;
+    }else if(id.x == 5){
+        triangles[trianglesIndex] = verticeIndex;
+    }
+    
+    //triangles[index] = Resolution;
+}
