@@ -21,6 +21,11 @@ public class SpaceShipUIInteraction : MonoBehaviour
     public Toggle _Toggle;
     public Astronomical selectAstron;
     public SimpleSpaceShip spaceShip;
+    public SimplePlayerCtrl playerCtrl;
+    public Camera ctrlCamera;
+    public TMP_Text playerOrShip;
+    public Button btn;
+    private bool isPlayerCtrl = false;
 
     public Vector2 canveSize;
     private void Start()
@@ -34,6 +39,77 @@ public class SpaceShipUIInteraction : MonoBehaviour
         {
             spaceShip.Braking(arg0);
         });
+        btn.onClick.AddListener(delegate
+        {
+            if (isPlayerCtrl)
+            {
+                ChangeToSpaceShip();
+            }
+            else
+            {
+                ChangeToPlayer();
+            }
+        });
+        if (spaceShip.gameObject.activeSelf)
+        {
+            isPlayerCtrl = false;
+            playerOrShip.text = "登陆星球";
+        }
+        else
+        {
+            isPlayerCtrl = true;
+            playerOrShip.text = "进入飞船";
+        }
+    }
+
+    private void ChangeToSpaceShip()
+    {
+        if (!isPlayerCtrl)
+        {
+            return;
+        }
+
+        if (!playerCtrl.IsInShip())
+        {
+            return;
+        }
+        isPlayerCtrl = false;
+        playerOrShip.text = "登陆星球";
+        playerCtrl.transform.SetParent(spaceShip.transform);
+        playerCtrl.transform.localPosition = new Vector3(playerCtrl.transform.localPosition.x,1,playerCtrl.transform.localPosition.z);
+        
+        ctrlCamera.transform.SetParent(spaceShip.transform);
+        ctrlCamera.transform.localPosition = new Vector3(0,2.0f,4.0f);
+        ctrlCamera.transform.localRotation = Quaternion.identity;
+        
+        playerCtrl.LandShip();
+        spaceShip.GotoSpace();
+    }
+
+    private void ChangeToPlayer()
+    {
+        if (isPlayerCtrl)
+        {
+            return;
+        }
+        if ( !playerCtrl.IsInShip())
+        {
+            return;
+        }
+
+        if (!spaceShip.IsInPlanet())
+        {
+            return;
+        }
+
+        isPlayerCtrl = true;
+        playerOrShip.text = "进入飞船";
+        playerCtrl.transform.SetParent(null);
+        ctrlCamera.transform.SetParent(playerCtrl.transform);
+        ctrlCamera.transform.localPosition = new Vector3(0,1.4f,0);
+        ctrlCamera.transform.localRotation = Quaternion.identity;
+        playerCtrl.LandPlanet(spaceShip._rigidbody.velocity);
+        spaceShip.LandPlanet();
     }
 
     // Update is called once per frame
@@ -42,25 +118,33 @@ public class SpaceShipUIInteraction : MonoBehaviour
     {
         if (selectAstron != null)
         {
+            Rigidbody curRigid = null;
+            if (isPlayerCtrl)
+            {
+                curRigid = playerCtrl._rigidbody;
+            }
+            else
+            {
+                curRigid = spaceShip._rigidbody;
+            }
             info.gameObject.SetActive(true);
-            var dir = (selectAstron.transform.position - spaceShip._rigidbody.position);
-            var distance = dir.magnitude - selectAstron.Radius-spaceShip.transform.localScale.x*0.5;
+            var dir = (selectAstron.transform.position - curRigid.position);
+            var distance = dir.magnitude - selectAstron.Radius-curRigid.transform.localScale.x*0.5;
             var astronSpeed = SolarSystemSimulater.Inst.GetRelativeSpeed(selectAstron);
             //天体相对飞船的速度
-            var relativeSpeed = astronSpeed - spaceShip._rigidbody.velocity;
+            var relativeSpeed = astronSpeed - curRigid.velocity;
 
+            var up = curRigid.transform.up;
+            var right = curRigid.transform.right;
+            var forward = curRigid.transform.forward;
 
-            // var spaceShipUp = spaceShip._rigidbody.rotation * Vector3.up;
-            // var spaceShipRight = spaceShip._rigidbody.rotation * Vector3.right;
-            // var spaceShipForward = spaceShip._rigidbody.rotation * Vector3.forward;
-            
-            var upSpeed =  Vector3.Project( relativeSpeed,spaceShip.transform.up);
-            var rightSpeed = Vector3.Project( relativeSpeed,spaceShip.transform.right);
-            var forwardSpeed = Vector3.Project( relativeSpeed,spaceShip.transform.forward);
+            var upSpeed =  Vector3.Project( relativeSpeed,up);
+            var rightSpeed = Vector3.Project( relativeSpeed,right);
+            var forwardSpeed = Vector3.Project( relativeSpeed,forward);
 
-            var isUp = Vector3.Dot(spaceShip.transform.up, upSpeed)>0;
-            var isRight = Vector3.Dot(spaceShip.transform.right, rightSpeed)>0;
-            var isForward = Vector3.Dot(spaceShip.transform.forward, forwardSpeed)>0;
+            var isUp = Vector3.Dot(up, upSpeed)>0;
+            var isRight = Vector3.Dot(right, rightSpeed)>0;
+            var isForward = Vector3.Dot(forward, forwardSpeed)>0;
             
             
             horitalSpeed.rectTransform.sizeDelta = new Vector2(Mathf.Min(rightSpeed.magnitude*2,150), 2);
@@ -126,27 +210,7 @@ public class SpaceShipUIInteraction : MonoBehaviour
         {
             info.gameObject.SetActive(false);
         }
-        ProcessSpaceShipInfo();
-    }
-
-    private void ProcessSpaceShipInfo()
-    {
-        // var spaceShipUp = spaceShip._rigidbody.rotation * Vector3.up;
-        // var spaceShipRight = spaceShip._rigidbody.rotation * Vector3.right;
-        // var spaceShipForward = spaceShip._rigidbody.rotation * Vector3.forward;
-        //     
-        // var upSpeed =  Vector3.Project( spaceShip.curEngineAcceleration,spaceShipUp);
-        // var rightSpeed = Vector3.Project( spaceShip.curEngineAcceleration,spaceShipRight);
-        // var forwardSpeed = Vector3.Project( spaceShip.curEngineAcceleration,spaceShipForward);
-        // var isUp = Vector3.Dot(upSpeed, spaceShipUp) >= 0;
-        // var isRight = Vector3.Dot(upSpeed, spaceShipUp) >= 0;
-        // var isForward = Vector3.Dot(upSpeed, spaceShipUp) >= 0;
-        //
-        // var rightDesc = (isRight ? "+" : "-") +((int)rightSpeed.magnitude);
-        // var upDesc = (isUp ? "+" : "-") +((int)upSpeed.magnitude);
-        // var forwardDesc = (isForward ? "+" : "-") +((int)forwardSpeed.magnitude);
-        //  spaceShipEngineSpeed.text =
-        //                              $"引擎加速度:{rightDesc},{upDesc},{forwardDesc}";
+        
     }
 
     private string GetSpeedDesc(Vector3 crossSpeed)

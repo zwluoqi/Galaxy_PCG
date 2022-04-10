@@ -49,6 +49,7 @@ public class AutoGenerateSolarSystem:MonoBehaviour
                 var randomSunRadius = sunRadius;
                 var randomSunSurfaceGravity = sunGravity;
                 var sun = GameObject.CreatePrimitive(PrimitiveType.Sphere).AddComponent<Astronomical>();
+                sun.transform.SetParent(this.transform);
                 sun.name = "sun";
                 sun.transform.position = Vector3.zero;
                 sun.Radius = randomSunRadius;
@@ -119,6 +120,7 @@ public class AutoGenerateSolarSystem:MonoBehaviour
 
 
                 var earth = GameObject.CreatePrimitive(PrimitiveType.Sphere).AddComponent<Astronomical>();
+                earth.transform.SetParent(this.transform);
                 earth.name = recursionCount==0 ? ("earth" + i) : ("moon" + i);
                 earth.transform.position = pos;
                 earth.Radius = autoRadius;

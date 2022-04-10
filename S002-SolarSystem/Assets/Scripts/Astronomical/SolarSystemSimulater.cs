@@ -15,8 +15,6 @@ public class SolarSystemSimulater:MonoBehaviour
     [Range(1,1000)]
     public int runningIterNumber = 10;
     public Astronomical centerTrans;
-    [NonSerialized]
-    public Astronomical defaultTrans;
 
     public Material lineMaterial;
     
@@ -52,7 +50,6 @@ public class SolarSystemSimulater:MonoBehaviour
     
     private void Awake()
     {
-        defaultTrans = centerTrans;
         Time.fixedDeltaTime = GlobalDefine.deltaTime;
         OnFixedUpdate += FixedUpdate0;
     }

@@ -16,25 +16,35 @@ public class SimplePlayerCtrl : MonoBehaviour
     
     public Vector3 astronAcceleration;
     public Vector3 inputDir;
-    // public Quaternion smoothTargetRot;
-    public bool grounding = false;
+
+    public int groundingCounter = 0;
+    public GameObject latestCollider;
+    public bool ctrl = false;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = false;
+        
+        LandShip();
         SolarSystemSimulater.Inst.OnFixedUpdate += FixedUpdate0;
     }
 
+
     private void OnCollisionEnter(Collision other)
     {
-        grounding = true;
-        Debug.LogWarning("OnCollisionEnter:"+other.gameObject.name);
+        groundingCounter++;
+        latestCollider = other.gameObject;
+        Debug.LogWarning(this.name+" OnCollisionEnter:"+other.gameObject.name);
     }
     
     private void OnCollisionExit(Collision other)
     {
-        grounding = false; 
-        Debug.LogWarning("OnCollisionExit:"+other.gameObject.name);
+        groundingCounter--;
+        if (groundingCounter <= 0)
+        {
+            latestCollider = null;
+        }
+        Debug.LogWarning(this.name+" OnCollisionExit:"+other.gameObject.name);
     }
 
 
@@ -59,10 +69,13 @@ public class SimplePlayerCtrl : MonoBehaviour
 
     private void FixedUpdate0(float detalTime)
     {
-        Move(detalTime);
+        if (ctrl)
+        {
+            MoveOnPlanet(detalTime);
+        }
     }
 
-    private void Move(float detalTime)
+    private void MoveOnPlanet(float detalTime)
     {
         var astrons = GameObject.FindObjectsOfType<Astronomical>();
         astronAcceleration = Vector3.zero;
@@ -115,7 +128,7 @@ public class SimplePlayerCtrl : MonoBehaviour
         
 
         //前进
-        if (grounding)
+        if (groundingCounter > 0)
         {
             _rigidbody.MovePosition(_rigidbody.position + moveDir * detalTime * moveSpeed);
             
@@ -146,6 +159,32 @@ public class SimplePlayerCtrl : MonoBehaviour
         {
             yMouseRot = 0;
             xMouseRot = 0;
+        }
+    }
+
+    public void LandPlanet(Vector3 velocity)
+    {
+        ctrl = true;
+        _rigidbody.isKinematic = false;
+        _rigidbody.velocity = velocity;
+    }
+    
+    public void LandShip()
+    {
+        ctrl = false;
+        _rigidbody.isKinematic = true;
+        _rigidbody.velocity = Vector3.zero;
+    }
+
+    public bool IsInShip()
+    {
+        if (ctrl)
+        {
+            return groundingCounter > 0 && latestCollider && latestCollider.GetComponent<SimpleSpaceShip>();
+        }
+        else
+        {
+            return true;
         }
     }
     

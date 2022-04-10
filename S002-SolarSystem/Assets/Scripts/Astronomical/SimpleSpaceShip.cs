@@ -13,17 +13,19 @@ public class SimpleSpaceShip:MonoBehaviour
     
     public Vector3 astronAcceleration;
     public Vector3 inputDir;
-    public bool grounding;
-    
+    public int groundingCounter;
+    public Astronomical groundAstronomical;
+    public bool ctrl;
     private float changeDuration = 2.0f;
     private float changeTimer = 0;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.useGravity = false;
+        GotoSpace();
         SolarSystemSimulater.Inst.OnFixedUpdate += FixedUpdate0;
     }
-
+    
     public int GetInputAxis(KeyCode l, KeyCode r)
     {
         if (Input.GetKey(l))
@@ -39,14 +41,26 @@ public class SimpleSpaceShip:MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        grounding = true;
-        Debug.LogWarning("OnCollisionEnter:"+other.gameObject.name);
+        groundingCounter++;
+        var astronomical = other.gameObject.GetComponent<Astronomical>();
+        if (astronomical)
+        {
+            groundAstronomical = astronomical;
+            var curUp = _rigidbody.rotation * Vector3.up;
+            _rigidbody.rotation = Quaternion.FromToRotation(curUp, -(groundAstronomical.transform.position - _rigidbody.position).normalized) * _rigidbody.rotation;
+        }
+        Debug.LogWarning(this.name+" OnCollisionEnter:"+other.gameObject.name);
     }
     
     private void OnCollisionExit(Collision other)
     {
-        grounding = false; 
-        Debug.LogWarning("OnCollisionExit:"+other.gameObject.name);
+        groundingCounter--;
+        var astronomical = other.gameObject.GetComponent<Astronomical>();
+        if (astronomical)
+        {
+            groundAstronomical = null;
+        }
+        Debug.LogWarning(this.name+" OnCollisionExit:"+other.gameObject.name);
     }
 
     private void Update()
@@ -78,63 +92,38 @@ public class SimpleSpaceShip:MonoBehaviour
         var up = _rigidbody.rotation * Vector3.up;
         var right = _rigidbody.rotation * Vector3.right;
         var forward = _rigidbody.rotation * Vector3.forward;
-        
-        //飞船旋转
-        if (!grounding)
+
+        if (ctrl)
         {
-            var xRot = Quaternion.AngleAxis(xMouseRot, up);
-            var yRot = Quaternion.AngleAxis(yMouseRot, right);
-            var targetRot = xRot * yRot * _rigidbody.rotation;
-            var smoothTargetRot =
-                Quaternion.Slerp(_rigidbody.rotation, targetRot, detalTime * rotSmoothSpeed);
-            _rigidbody.MoveRotation(smoothTargetRot);
+            //飞船旋转
+            if (groundAstronomical)
+            {
+
+            }
+            else
+            {
+                var xRot = Quaternion.AngleAxis(xMouseRot, up);
+                var yRot = Quaternion.AngleAxis(yMouseRot, right);
+                var targetRot = xRot * yRot * _rigidbody.rotation;
+                var smoothTargetRot =
+                    Quaternion.Slerp(_rigidbody.rotation, targetRot, detalTime * rotSmoothSpeed);
+                _rigidbody.MoveRotation(smoothTargetRot);
+            }
+
+
+            //飞船动力
+            {
+                up = _rigidbody.rotation * Vector3.up;
+                right = _rigidbody.rotation * Vector3.right;
+                forward = _rigidbody.rotation * Vector3.forward;
+                var moveDir = forward * inputDir.z + right * inputDir.x + up * inputDir.y;
+                moveDir = moveDir.normalized;
+
+                _rigidbody.AddForce(moveDir * engineAcceleration, ForceMode.Acceleration);
+            }
         }
-
-
-        //飞船动力
-        // if (!grounding)
-        {
-            up = _rigidbody.rotation * Vector3.up;
-            right = _rigidbody.rotation * Vector3.right;
-            forward = _rigidbody.rotation * Vector3.forward;
-            var moveDir = forward * inputDir.z + right * inputDir.x + up * inputDir.y;
-            moveDir = moveDir.normalized;
-
-            _rigidbody.AddForce(moveDir * engineAcceleration, ForceMode.Acceleration);
-        }
-
-        // var maxAccelerationAstronomical =
-        //     SolarSystemSimulater.Inst.GetMaxAccelerationAstron(this._rigidbody.position, astrons);
-        //
-        // if (maxAccelerationAstronomical.Item1 != null)
-        // {
-        //     if (maxAccelerationAstronomical.Item1 != SolarSystemSimulater.Inst.centerTrans)
-        //     {
-        //         ChangeInertialFrameOfReference(maxAccelerationAstronomical.Item1);
-        //     }
-        // }
     }
 
-    private void ChangeInertialFrameOfReference(Astronomical nearestAstronomical)
-    {
-        if (changeTimer > 0)
-        {
-            return;
-        }
-
-        changeTimer = changeDuration;
-        var BeforeVelocity = SolarSystemSimulater.Inst.centerTrans.GetCurrentVelocity(); 
-        //被天体捕获,调整惯性参考系
-        SolarSystemSimulater.Inst.centerTrans = nearestAstronomical;
-        var AfterVelocity = SolarSystemSimulater.Inst.centerTrans.GetCurrentVelocity();
-        var speed = (BeforeVelocity - AfterVelocity);
-        //调整相对速度
-        var b = _rigidbody.velocity;
-        // _rigidbody.AddForce(speed, ForceMode.VelocityChange);
-        _rigidbody.velocity += speed;
-        var a = _rigidbody.velocity;
-        Debug.LogError("调整惯性参考系到:" + nearestAstronomical.name + "调整前:" + b + ",调整后：" + a+",差值:"+speed.magnitude);
-    }
 
     public float yMouseRot;
     public float xMouseRot;
@@ -166,5 +155,21 @@ public class SimpleSpaceShip:MonoBehaviour
     public void Braking(bool arg0)
     {
         
+    }
+
+    public void GotoSpace()
+    {
+        ctrl = true;
+        // _rigidbody.isKinematic = false;
+    }
+
+    public void LandPlanet()
+    {
+        ctrl = false;
+    }
+    
+    public bool IsInPlanet()
+    {
+        return groundingCounter > 0 && groundAstronomical;
     }
 }
