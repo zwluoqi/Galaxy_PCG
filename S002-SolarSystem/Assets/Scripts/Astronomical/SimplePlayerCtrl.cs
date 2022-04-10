@@ -167,6 +167,7 @@ public class SimplePlayerCtrl : MonoBehaviour
         ctrl = true;
         _rigidbody.isKinematic = false;
         _rigidbody.velocity = velocity;
+        GetComponent<Collider>().enabled = true;
     }
     
     public void LandShip()
@@ -174,6 +175,7 @@ public class SimplePlayerCtrl : MonoBehaviour
         ctrl = false;
         _rigidbody.isKinematic = true;
         _rigidbody.velocity = Vector3.zero;
+        GetComponent<Collider>().enabled = false;
     }
 
     public bool IsInShip()
