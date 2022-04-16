@@ -15,9 +15,9 @@ MonoBehaviour:
   radius: 1
   _noiseSetting:
     layer: 1
-    layerRoughness: 2
-    layerMultiple: 0.5
-    strength: 3.43
-    roughness: 1
-    offset: {x: 0.84, y: 0, z: 0}
+    layerRoughness: 2.54
+    layerMultiple: 1.06
+    strength: 5.82
+    roughness: 1.3
+    offset: {x: 0.84, y: 2.19, z: 2.13}
     noiseType: 0
