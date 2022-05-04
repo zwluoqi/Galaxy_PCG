@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bb9885eebf4222b5ed6f0937956c92, type: 3}
+  m_Name: Water Render Setting
+  m_EditorClassIdentifier: 
+  waterLayers:
+  - enable: 0
+    useMask: 0
+    waterSetting:
+      Frenque: 0.1
+      Strength: 0.003
+      Speed: 0.1
+      Dir: 0
+  - enable: 0
+    useMask: 0
+    waterSetting:
+      Frenque: 0.1
+      Strength: 0.003
+      Speed: 0.12
+      Dir: 45
+  alphaMultiplier: 72
+  waterSmoothness: 0.1
