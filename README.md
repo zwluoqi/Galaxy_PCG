@@ -22,4 +22,4 @@
 | `S010-UnlitOcean` | ![](https://www.bilibili.com/video/BV1mT4y1h7TH/) | 海洋透明度视频 |
 | `S011-UnlitOceanWave` | ![](images/011SimpleOceanWater.png) | 海洋简单波浪 |
 | `S011-UnlitOceanWave` | ![](https://www.bilibili.com/video/BV1AZ4y1m7m3/) | 海洋简单波浪视频 |
-| `S012-RadnomAndMultiplePass` | ![](images/012RandomAndMultiplPass) | 添加行星随机生成，去掉海水独立的几何，改成另一个pass渲染 |
+| `S012-RadnomAndMultiplePass` | ![](images/012RandomAndMultiplPass.png) | 添加行星随机生成，去掉海水独立的几何，改成另一个pass渲染 |
