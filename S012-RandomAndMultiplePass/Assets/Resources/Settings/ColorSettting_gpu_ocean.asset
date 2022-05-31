@@ -76,7 +76,7 @@ MonoBehaviour:
       m_NumColorKeys: 4
       m_NumAlphaKeys: 2
     tinyColor: {r: 1, g: 0, b: 0, a: 1}
-    tinyPercent: 0
+    tinyPercent: 0.46
     startHeight: 0
   - gradient:
       serializedVersion: 2
@@ -108,7 +108,7 @@ MonoBehaviour:
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     tinyColor: {r: 1, g: 0.7206769, b: 0, a: 1}
-    tinyPercent: 1
+    tinyPercent: 0.481
     startHeight: 0.393
   - gradient:
       serializedVersion: 2
@@ -140,7 +140,7 @@ MonoBehaviour:
       m_NumColorKeys: 6
       m_NumAlphaKeys: 2
     tinyColor: {r: 1, g: 1, b: 1, a: 1}
-    tinyPercent: 1
+    tinyPercent: 0.527
     startHeight: 0.607
   noiseEnable: 1
   noiseSetting:

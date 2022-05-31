@@ -118,7 +118,8 @@ Varyings CustomLitPassVertex(Attributes input)
     //float ocean = invLerp(_minmax.x,0,sourceUV.y);
     //float depth = invLerp(0,_minmax.y,sourceUV.y);
     //float x = 0.5*ocean+0.5*top;
-    output.uv.x = 0.5f;
+    float terrainHeight01 = invLerp(_minmax.x,_minmax.y,sourceUV.y);
+    output.uv.x = terrainHeight01;
     output.uv.y = sourceUV.x;
     //smoothness
     //output.color.x = (1.0-floor(ocean));
