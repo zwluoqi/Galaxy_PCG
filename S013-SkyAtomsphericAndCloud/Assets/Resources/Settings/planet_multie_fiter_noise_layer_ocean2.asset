@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9764a3cad214d5388c7b689570fb251, type: 3}
+  m_Name: planet_multie_fiter_noise_layer_ocean2
+  m_EditorClassIdentifier: 
+  generateType: 0
+  computeShader: {fileID: 7200000, guid: 0e6095f6769a24cdebb0db69a1e882db, type: 3}
+  radius: 128
+  _noiseEnable: 1
+  _noiseSetting:
+    noiseType: 0
+    simpleNoise:
+      layer: 2
+      layerRoughness: 3.93
+      layerMultiple: -0.2
+      strength: 0.1
+      roughness: 1
+      offset: {x: 0, y: 0, z: 0}
+      minValue: 0.54
+    uberNoise:
+      layer: 1
+      layerRoughness: 2
+      layerMultiple: 0.5
+      strength: 1
+      roughness: 1
+      offset: {x: 0, y: 0, z: 0}
+      minValue: 0
+      lfPerturbFeatures: 0
+      lfSharpness: 0
+      lfAltitudeErosion: 0
+      lfRidgeErosion: 0
+      lfSlopeErosion: 0
+      lfLacunarity: 0
+  _noiseLayers:
+  - enable: 1
+    useMask: 1
+    noiseSetting:
+      noiseType: 0
+      simpleNoise:
+        layer: 4
+        layerRoughness: 8
+        layerMultiple: 0.49
+        strength: 1.27
+        roughness: 1
+        offset: {x: 0, y: 0, z: 0}
+        minValue: 0
+      uberNoise:
+        layer: 1
+        layerRoughness: 2
+        layerMultiple: 0.5
+        strength: 1
+        roughness: 1
+        offset: {x: 0, y: 0, z: 0}
+        minValue: 0
+        lfPerturbFeatures: 0
+        lfSharpness: 0
+        lfAltitudeErosion: 0
+        lfRidgeErosion: 0
+        lfSlopeErosion: 0
+        lfLacunarity: 0
+  - enable: 1
+    useMask: 1
+    noiseSetting:
+      noiseType: 1
+      simpleNoise:
+        layer: 4
+        layerRoughness: 3.2
+        layerMultiple: 1.69
+        strength: 0.21
+        roughness: 6.18
+        offset: {x: 0, y: 0, z: 0}
+        minValue: 0
+      uberNoise:
+        layer: 1
+        layerRoughness: 2
+        layerMultiple: 0.5
+        strength: 1
+        roughness: 1
+        offset: {x: 0, y: 0, z: 0}
+        minValue: 0
+        lfPerturbFeatures: 0
+        lfSharpness: 0
+        lfAltitudeErosion: 0
+        lfRidgeErosion: 0
+        lfSlopeErosion: 0
+        lfLacunarity: 0

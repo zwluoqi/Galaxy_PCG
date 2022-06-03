@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6879971600259984194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6879971600259984207}
+  - component: {fileID: 6879971600259984206}
+  - component: {fileID: 6879971600259984193}
+  - component: {fileID: 6879971600259984192}
+  - component: {fileID: 6879971600259984195}
+  - component: {fileID: 6879971600259984196}
+  m_Layer: 0
+  m_Name: cloudshpere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6879971600259984207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10000, y: 10000, z: 10000}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6879971600259984206
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6879971600259984193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152b9e126d384f3fb5f0cafa7270819b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cloudShape: 1
+  samplerScale: 0.1
+  samplerOffset: {x: 155, y: 99.3, z: 25.4}
+  textureShape: {fileID: 11700000, guid: 70c2adccd53fd45468d11570134863c2, type: 2}
+  detailShape: {fileID: 11700000, guid: 206e9646e82f94c249cda79e716d3f1d, type: 2}
+  weatherMap: {fileID: 2800000, guid: ffbe84c4820a54394a87de82deef06ba, type: 3}
+  globalCoverage: 0.24
+  globalDensity: 1
+  globalThickness: 0.255
+  densityThreshold: 0.43
+  densityMultipler: 0.011
+  numberStepCloud: 128
+  lightPhaseStrength: 1
+  lightPhaseIns: 0.5
+  lightPhaseOuts: 0.5
+  lightPhaseBlend: 1
+  lightPhaseCsi: 16.4
+  lightPhaseCse: 36.4
+  lightAbsorptionThroughCloud: 0.11
+  lightAbsorptionTowardSun: 1
+  darknessThreshold: 0.01
+  numberStepLight: 2
+  debug_shape_noise: 0
+  debug_shape_z: 0
+  debug_rgba: 2
+--- !u!33 &6879971600259984192
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6879971600259984195
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 17f332d8651d446a4bef0db7df17a3d1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6879971600259984196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879971600259984194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3191081ffa0b049e4a22f09742cd1f61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atomScale: 1.2
+  atomDensityFalloff: 2
+  lightPhaseValue: 3
+  numberStepSky: 6
+  numberStepLight: 6
+  lightAbsorptionTowardSun: 6
+  darknessThreshold: 0
+  rgbWaveLengths: {x: 700, y: 550, z: 400}
+  sunSmoothness: 4.09
