@@ -79,10 +79,9 @@ Shader "Shader/RayMarchCloud"
             {
 
                 
-              float4 ndcPos = (input.screenPos / input.screenPos.w);
-              float deviceDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, ndcPos.xy);                
-              float3 colorWorldPos = ComputeWorldSpacePosition(ndcPos.xy, deviceDepth, UNITY_MATRIX_I_VP);
-                // return float4(deviceDepth,0,0,1);
+                float4 ndcPos = (input.screenPos / input.screenPos.w);
+                float deviceDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, ndcPos.xy);                
+                float3 colorWorldPos = ComputeWorldSpacePosition(ndcPos.xy, deviceDepth, UNITY_MATRIX_I_VP);
 
                 #ifdef DEBUG_SHAPE_NOSE
                     float4 rgba = SAMPLE_TEXTURE3D_LOD(shapeNoise, sampler_shapeNoise, float3(ndcPos.xy,debug_shape_z),0);
@@ -103,83 +102,89 @@ Shader "Shader/RayMarchCloud"
                 #endif
                 
             
-
-
-             
-              float3 cameraToPosDir = colorWorldPos - _WorldSpaceCameraPos.xyz;
-              float3 rayDir = normalize(cameraToPosDir);
+                float3 cameraToPosDir = colorWorldPos - _WorldSpaceCameraPos.xyz;
+                float3 rayDir = normalize(cameraToPosDir);
 
 
                 #ifdef SHAPE_BOX
-              float2 distToBox = RayBoxIntersection(_WorldSpaceCameraPos.xyz,rayDir,boxmin,boxmax);
-
-              float distToBoxHit = distToBox.x;
-              float rayDst = min(distToBox.y,length(cameraToPosDir)-distToBoxHit);
+                    float2 distToBox = RayBoxIntersection(_WorldSpaceCameraPos.xyz,rayDir,boxmin,boxmax);
+  
+                    float distToBoxHit = distToBox.x;
+                    float rayDst = min(distToBox.y,length(cameraToPosDir)-distToBoxHit);
                 #elif  SHAPE_SPHERE
-              float2 distToOuter = RaySphereIntersection(sphereCenter.xyz,boxmax.x,_WorldSpaceCameraPos.xyz,rayDir);
-              float2 distToInner = RaySphereIntersection(sphereCenter.xyz,boxmin.x,_WorldSpaceCameraPos.xyz,rayDir);
-
-
-              float distToBoxHit = min(distToOuter.x,distToInner.x);
-              float rayDst = min(distToInner.x- distToOuter.x,distToOuter.y-distToInner.y);
-                rayDst = min(rayDst,length(cameraToPosDir)-distToBoxHit);
+                    //optimize
+                    //float2 radius = GetOptimizeRadius(boxmin.x,boxmax.x);
+                    float2 radius = float2(boxmin.x,boxmax.x);
+                    float2 distToOuter = RaySphereIntersection(sphereCenter.xyz,radius.y,_WorldSpaceCameraPos.xyz,rayDir);
+                    float2 distToInner = RaySphereIntersection(sphereCenter.xyz,radius.x,_WorldSpaceCameraPos.xyz,rayDir);
+  
+  
+                    float distToBoxHit = min(distToOuter.x,distToInner.x);
+                    float rayDst = min(distToInner.x- distToOuter.x,distToOuter.y-distToInner.y);
+                    rayDst = min(rayDst,length(cameraToPosDir)-distToBoxHit);
                 #else
-                float rayDst  = 0;
-                float distToBoxHit = 0;
+                    float rayDst  = 0;
+                    float distToBoxHit = 0;
                 #endif
 
                 float3 dirToLight = normalize(_MainLightPosition.xyz);
                 float cosTheta = dot(rayDir,dirToLight);
-                float lightPhaseValue = lightPhase(cosTheta);
-
-              float totalLightTransmittance = 0;
-              float lightEnergy = 0;
-              float transmittance = 1;
-              float cloudHeight = 1;
-              float totalDensity = 0;
+                // return cosTheta;
+                float lightPhaseValue = lightPhase(cosTheta)*lightPhaseStrength;
+                // return lightPhaseValue;
+  
+                float totalLightTransmittance = 0;
+                float lightEnergy = 0;
+                float transmittance = 1;
+                float cloudHeight = 1;
+                float totalDensity = 0;
                 #ifdef SHAPE_BOX
                     cloudHeight = (boxmax.y-boxmin.y);
                 #elif SHAPE_SPHERE
                     cloudHeight = (boxmax.x-boxmin.x);
                 #endif
-              if(rayDst>0.001f){
-                  float stepDst = rayDst/numberStepCloud;
-                  float3 hitPoint = _WorldSpaceCameraPos.xyz + rayDir*(distToBoxHit);
-                  for (int step = 0;step <numberStepCloud;step++)
-                  {
-                      float3 rayPos = hitPoint + rayDir*(stepDst)*(step);
-
-                      float density = sampleDensity(rayPos);
-                      // totalDensity+=density;
-                      float lightEnergyFactor = 1;
-                      if(density > 0 )
-                      {
-                          float distInsideBox = 0;
-                          #ifdef SHAPE_BOX
-                                distInsideBox = RayBoxIntersection(rayPos,dirToLight,boxmin,boxmax).y;
-                          #elif SHAPE_SPHERE
-                                distInsideBox = RaySphereIntersection(sphereCenter.xyz,boxmax.x,rayPos,dirToLight).y;
-                          #endif
-                          
-                      
-                          float lightDensity = lightMarchingDensity(rayPos,dirToLight,distInsideBox);
-                          float lightTransmittance = exp(-lightDensity*lightAbsorptionTowardSun/cloudHeight)*(1-darknessThreshold)+darknessThreshold;
-                          totalLightTransmittance += lightTransmittance;
-
-                            #ifdef SHAPE_SPHERE
-                                float ditFacotr = distInsideBox/(2*boxmax.x);
-                                lightEnergyFactor = 1-ditFacotr*ditFacotr*ditFacotr;
-                            #endif                   
-                          
-                          lightEnergy += (density * stepDst * transmittance * lightTransmittance*lightPhaseValue)*lightEnergyFactor;
-                          transmittance *= (exp(-density*stepDst*lightAbsorptionThroughCloud/cloudHeight));
-                          if(transmittance < 0.001)
-                          {
-                              break;
-                          }
-                      }
-                  }
-
+                if(rayDst>0.001f){
+                    float stepDst = rayDst/numberStepCloud;
+                    float4 rayMarchOffset = SAMPLE_TEXTURE2D_LOD(rayMarchOffsetMap, sampler_rayMarchOffsetMap,.1*float2(rayDir.x+rayDir.y,rayDir.y+rayDir.z),0);
+                    float startOffset = 1.0*stepDst*rayMarchOffset;
+                    rayDst -= startOffset;
+                    stepDst = rayDst/numberStepCloud;
+                    // return rayMarchOffset;
+                    float3 hitPoint = _WorldSpaceCameraPos.xyz + rayDir*(distToBoxHit+startOffset*0.5f);
+                    for (int step = 0;step <numberStepCloud;step++)
+                    {
+                        float3 rayPos = hitPoint + rayDir*(stepDst)*(step);
+  
+                        float density = sampleDensity(rayPos);
+                        // totalDensity+=density;
+                        float lightEnergyFactor = 1;
+                        if(density > 0 )
+                        {
+                            float lengthToLightCould = 0;
+                            #ifdef SHAPE_BOX
+                                  lengthToLightCould = RayBoxIntersection(rayPos,dirToLight,boxmin,boxmax).y;
+                            #elif SHAPE_SPHERE
+                                  lengthToLightCould = RaySphereIntersection(sphereCenter.xyz,radius.y,rayPos,dirToLight).y;
+                            #endif
+                            
+                        
+                            float lightDensity = lightMarchingDensity(rayPos,dirToLight,lengthToLightCould);
+                            float lightTransmittance = exp(-lightDensity*lightAbsorptionTowardSun/cloudHeight)*(1-darknessThreshold)+darknessThreshold;
+                            totalLightTransmittance += lightTransmittance;
+  
+                              #ifdef SHAPE_SPHERE
+                                  float ditFacotr = lengthToLightCould/(2*radius.x);
+                                  lightEnergyFactor = 1-ditFacotr*ditFacotr*ditFacotr;
+                              #endif                   
+                            
+                            lightEnergy += (density * stepDst * transmittance * lightTransmittance*lightPhaseValue)*lightEnergyFactor;
+                            transmittance *= (exp(-density*stepDst*lightAbsorptionThroughCloud/cloudHeight));
+                            if(transmittance < 0.001)
+                            {
+                                break;
+                            }
+                        }
+                    }
                }
 
 

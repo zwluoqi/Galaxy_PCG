@@ -126,6 +126,8 @@ public class RayMarchCloudSRF : ScriptableRendererFeature
                 cmd.SetGlobalTexture("shapeNoise",box.textureShape);
                 cmd.SetGlobalTexture("detailNoise",box.detailShape);
                 cmd.SetGlobalTexture("weatherMap",box.weatherMap);
+                cmd.SetGlobalTexture("rayMarchOffsetMap",box.rayMarchOffsetMap);
+                
                 
         
                 cmd.SetGlobalFloat("debug_shape_z",box.debug_shape_z);

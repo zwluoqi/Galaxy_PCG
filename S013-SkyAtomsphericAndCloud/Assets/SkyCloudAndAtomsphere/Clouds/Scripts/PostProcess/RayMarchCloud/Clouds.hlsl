@@ -24,6 +24,11 @@ TEXTURE2D(_CloudTex);
 SAMPLER(sampler_CloudTex);
 
 
+TEXTURE2D(rayMarchOffsetMap);
+SAMPLER(sampler_rayMarchOffsetMap);
+
+
+
 // CBUFFER_START(UnityPerMaterial) // Required to be compatible with SRP Batcher
 float4 _MainTex_ST;
 float4 sphereCenter;
@@ -235,7 +240,11 @@ float lightMarchingDensity(float3 rayPos,float3 dirToLight,float rayLength)
     // return darknessThreshold + transmittance*(1-darknessThreshold);
 }
 
-
+float2 GetOptimizeRadius(float radiusMin,float radiusMax)
+{
+    float size =radiusMax-radiusMin;
+    return float2(radiusMin+globalStarHeight*size,radiusMin+globalThickness*size);
+}
 
 
 #endif

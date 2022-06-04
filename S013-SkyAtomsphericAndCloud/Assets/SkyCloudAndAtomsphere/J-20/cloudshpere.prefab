@@ -61,25 +61,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloudShape: 1
-  samplerScale: 0.1
-  samplerOffset: {x: 155, y: 99.3, z: 25.4}
+  samplerScale: 100
+  samplerHeightScale: 1
+  samplerOffset: {x: 206.2, y: 106.1, z: 25.4}
   textureShape: {fileID: 11700000, guid: 70c2adccd53fd45468d11570134863c2, type: 2}
   detailShape: {fileID: 11700000, guid: 206e9646e82f94c249cda79e716d3f1d, type: 2}
   weatherMap: {fileID: 2800000, guid: ffbe84c4820a54394a87de82deef06ba, type: 3}
-  globalCoverage: 0.24
-  globalDensity: 1
-  globalThickness: 0.255
+  rayMarchOffsetMap: {fileID: 2800000, guid: 5bb92e256168a454aa369217d922e1b3, type: 3}
+  globalCoverage: 0.26
+  globalDensity: 0.68
+  globalStarHeight: 0.46
+  globalThickness: 0.619
   densityThreshold: 0.43
   densityMultipler: 0.011
-  numberStepCloud: 128
-  lightPhaseStrength: 1
-  lightPhaseIns: 0.5
-  lightPhaseOuts: 0.5
-  lightPhaseBlend: 1
-  lightPhaseCsi: 16.4
-  lightPhaseCse: 36.4
-  lightAbsorptionThroughCloud: 0.11
-  lightAbsorptionTowardSun: 1
+  numberStepCloud: 32
+  lightPhaseStrength: 0.61
+  lightPhaseIns: 0.536
+  lightPhaseOuts: 0.541
+  lightPhaseBlend: 0.9
+  lightPhaseCsi: 1
+  lightPhaseCse: 5.1
+  lightAbsorptionThroughCloud: 74.1
+  lightAbsorptionTowardSun: 16.63
   darknessThreshold: 0.01
   numberStepLight: 2
   debug_shape_noise: 0
@@ -100,7 +103,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879971600259984194}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
