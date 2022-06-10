@@ -4,8 +4,8 @@
  URP 10.7.0
  
  Procedural content generation technology About Golaxy ,solar system,planet,moon ,ocean water ,mountain ,computer shader and so on
-| Scene | Image | Description |
-| --- | - | --- |
+| Scene | Image | Description |-|
+| --- | - | --- | --- |
 | `002SolarSystem` | ![](https://workbooko1.oss-cn-hangzhou.aliyuncs.com/uPic/title.png) | 太阳系运动模拟-引力方程 |
 | `002SolarSystem` | https://www.bilibili.com/video/BV145411U7u4/ | 登陆视频 |
 | `S003-Shape` | ![](https://workbooko1.oss-cn-hangzhou.aliyuncs.com/uPic/003Shape.png) | 几何生成 |
@@ -25,3 +25,8 @@
 | `S012-RadnomAndMultiplePass` | ![](https://workbooko1.oss-cn-hangzhou.aliyuncs.com/uPic/012RandomAndMultiplPass.png) | 添加行星随机生成，去掉海水独立的几何，改成另一个pass渲染 |
 | `S013-SkyAtomsphericAndCloud` | ![](https://workbooko1.oss-cn-hangzhou.aliyuncs.com/uPic/S013-SkyAtomsphericAndCloud.png) | <a href="https://github.com/zwluoqi/Clouds">后处理海水、天空、大气、云层</a> |
 | `S013-SkyAtomsphericAndCloud` | https://www.bilibili.com/video/bv1JU4y117NB/ |  |
+
+refrence:<br>
+https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models<br>
+https://www.martinpalko.com/triplanar-mapping/<br>
+https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a<br>
