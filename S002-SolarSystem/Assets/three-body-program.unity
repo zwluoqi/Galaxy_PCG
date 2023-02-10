@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: 380870664}
   - component: {fileID: 380870663}
   - component: {fileID: 380870662}
+  - component: {fileID: 380870670}
+  - component: {fileID: 380870669}
   m_Layer: 0
   m_Name: moon3
   m_TagString: Untagged
@@ -167,10 +169,10 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1e+9
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &380870664
@@ -191,7 +193,7 @@ MonoBehaviour:
   InitVelocity: {x: 0.4662037, y: 0.43236572, z: 0}
   _color: {r: 0.3502059, g: 1, b: 0, a: 1}
   surfaceGravity: 100
-  move: 1
+  circleAstronomical: {fileID: 0}
 --- !u!135 &380870665
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -216,6 +218,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -264,10 +267,35 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.97, y: -0.2430875, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &380870669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380870661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094720b70fe6426fa66d52f9db5b54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &380870670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380870661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5a41dbd2be4be583d818f14a710a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &703769976
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 703769978}
   - component: {fileID: 703769977}
+  - component: {fileID: 703769979}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -357,10 +386,31 @@ Transform:
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &703769979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703769976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &723713181
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +524,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -488,6 +539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063588999}
   - component: {fileID: 1063588998}
+  - component: {fileID: 1063589000}
   m_Layer: 0
   m_Name: simulater
   m_TagString: Untagged
@@ -513,7 +565,12 @@ MonoBehaviour:
   runningIterNumber: 10
   centerTrans: {fileID: 0}
   lineMaterial: {fileID: 2100000, guid: 3698d7f9440754f87bf9895938c57e9f, type: 2}
-  debugShow: 1
+  showAstronomicalPreview: 1
+  showGravity: 0
+  showDistance: 0
+  move: 1
+  minGravityScale: 0.05
+  maxGravityScale: 0.005
 --- !u!4 &1063588999
 Transform:
   m_ObjectHideFlags: 0
@@ -524,10 +581,23 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1063589000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063588997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094720b70fe6426fa66d52f9db5b54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338972354
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,6 +613,8 @@ GameObject:
   - component: {fileID: 1338972357}
   - component: {fileID: 1338972356}
   - component: {fileID: 1338972355}
+  - component: {fileID: 1338972363}
+  - component: {fileID: 1338972362}
   m_Layer: 0
   m_Name: moon2
   m_TagString: Untagged
@@ -572,10 +644,10 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1e+9
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1338972357
@@ -596,7 +668,7 @@ MonoBehaviour:
   InitVelocity: {x: -0.9324074, y: -0.86473143, z: 0}
   _color: {r: 0, g: 0.038576126, b: 1, a: 1}
   surfaceGravity: 100
-  move: 1
+  circleAstronomical: {fileID: 0}
 --- !u!135 &1338972358
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -621,6 +693,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -669,10 +742,35 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1338972362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338972354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094720b70fe6426fa66d52f9db5b54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1338972363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338972354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5a41dbd2be4be583d818f14a710a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1615949968
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1615949969}
   m_Layer: 0
-  m_Name: https://wikichi.icu/wiki/Three-body_problem#cite_note-TBG-10
+  m_Name: https://arxiv.org/pdf/math/0011268.pdf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -699,6 +797,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -817,6 +916,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -851,6 +951,8 @@ GameObject:
   - component: {fileID: 1989036421}
   - component: {fileID: 1989036420}
   - component: {fileID: 1989036419}
+  - component: {fileID: 1989036427}
+  - component: {fileID: 1989036426}
   m_Layer: 0
   m_Name: moon1
   m_TagString: Untagged
@@ -880,10 +982,10 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1e+9
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1989036421
@@ -904,7 +1006,7 @@ MonoBehaviour:
   InitVelocity: {x: 0.4662037, y: 0.43236572, z: 0}
   _color: {r: 0.8018868, g: 0.7301531, b: 0.68462974, a: 1}
   surfaceGravity: 100
-  move: 1
+  circleAstronomical: {fileID: 0}
 --- !u!135 &1989036422
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -929,6 +1031,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -977,7 +1080,32 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.97, y: 0.24308753, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1989036426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989036418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094720b70fe6426fa66d52f9db5b54a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1989036427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989036418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5a41dbd2be4be583d818f14a710a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
